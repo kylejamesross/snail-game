@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "parcel src/index.html"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
+    "jest": "^26.0.1",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5"
   }
