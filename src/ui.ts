@@ -5,7 +5,7 @@ export function modFox(state: string) {
   }
 }
 
-export function modeScene(state: string) {
+export function modScene(state: string) {
   const element = document.querySelector<HTMLElement>(".game");
   if (element) {
     element.className = `game ${state}`;

@@ -1,4 +1,4 @@
-import { modFox, modeScene, togglePoopBag, writeModal } from "./ui";
+import { modFox, modScene, togglePoopBag, writeModal } from "./ui";
 import {
   RAIN_CHANCE,
   SCENES,
@@ -25,11 +25,11 @@ const gameState = {
     this.clock++;
 
     switch (this.clock) {
-      case this.sleepTime:
+      case this.wakeTime:
         this.wake();
         break;
       case this.hungryTime:
-        this.sleep();
+        this.getHungry();
         break;
       case this.dieTime:
         this.die();
@@ -48,7 +48,7 @@ const gameState = {
     this.current = GameState.HATCHING;
     this.wakeTime = this.clock + 3;
     modFox("egg");
-    modeScene("day");
+    modScene("day");
     writeModal();
   },
   wake() {
@@ -56,7 +56,7 @@ const gameState = {
     this.wakeTime = -1;
     modFox("idling");
     this.scene = Math.random() > RAIN_CHANCE ? 0 : 1;
-    modeScene(SCENES[this.scene]);
+    modScene(SCENES[this.scene]);
     this.determineFoxState();
     this.sleepTime = this.clock + DAY_LENGTH;
     this.hungryTime = getNextHungerTime(this.clock);
@@ -94,7 +94,7 @@ const gameState = {
   },
   changeWeather() {
     this.scene = (this.scene + 1) % SCENES.length;
-    modeScene(SCENES[this.scene]);
+    modScene(SCENES[this.scene]);
     this.determineFoxState();
   },
   cleanUpPoop() {
@@ -114,7 +114,7 @@ const gameState = {
   sleep() {
     this.current = GameState.SLEEP;
     modFox("sleep");
-    modeScene("night");
+    modScene("night");
     this.clearTimes();
     this.wakeTime = this.clock + NIGHT_LENGTH;
   },
@@ -126,7 +126,7 @@ const gameState = {
   },
   die() {
     this.current = GameState.DEAD;
-    modeScene("dead");
+    modScene("dead");
     modFox("dead");
     this.clearTimes();
     writeModal("The fox died :( <br/> Press the middle button to start");
