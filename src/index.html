@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fox Game</title>
-    <link rel="stylesheet" href="./less/index.less" />
-  </head>
 
-  <body>
-      <div class="game-container">
-        <div class="game-container-inner">
-          <div class="game-screen"></div>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snail Game</title>
+  <link rel="stylesheet" href="./less/index.less" />
+</head>
+
+<body>
+  <div class="content-wrapper">
+    <div class="game-container">
+      <div class="game-container-inner">
+        <div class="game-screen"></div>
       </div>
-      <!-- <div class="inner">
+      <div class="game-controls">
+        <div class="feed-control game-button"></div>
+        <div class="poop-control game-button"></div>
+        <div class="environment-control game-button"></div>
+      </div>
+    </div>
+    <!-- <div class="inner">
         <div class="game day"></div>
         <div class="fox hidden"></div>
         <div class="poop-bag hidden"></div>
@@ -35,7 +42,8 @@
           <div class="icon weather-icon"></div>
         </div>
       </div> -->
-    </div>
-    <script src="./ts/index.ts"></script>
-  </body>
+  </div>
+  <script src="./ts/index.ts"></script>
+</body>
+
 </html>
