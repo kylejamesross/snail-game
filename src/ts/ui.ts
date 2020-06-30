@@ -1,7 +1,7 @@
-export function modFox(state: string) {
-  const element = document.querySelector<HTMLElement>(".fox");
+export function modSnail(state: string) {
+  const element = document.querySelector<HTMLElement>(".snail");
   if (element) {
-    element.className = `fox fox-${state}`;
+    element.className = `snail snail-${state}`;
   }
 }
 

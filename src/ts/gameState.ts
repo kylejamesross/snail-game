@@ -1,4 +1,4 @@
-import { modFox, modScene, togglePoopBag, writeModal } from "./ui";
+import { modSnail, modScene, togglePoopBag, writeModal } from "./ui";
 import {
   RAIN_CHANCE,
   SCENES,
@@ -47,14 +47,14 @@ const gameState = {
   startGame() {
     this.current = GameState.HATCHING;
     this.wakeTime = this.clock + 3;
-    modFox("egg");
+    modSnail("hatching");
     modScene("day");
     writeModal();
   },
   wake() {
     this.current = GameState.IDLING;
     this.wakeTime = -1;
-    modFox("idling");
+    modSnail("idling");
     this.scene = Math.random() > RAIN_CHANCE ? 0 : 1;
     modScene(SCENES[this.scene]);
     this.determineFoxState();
@@ -109,11 +109,11 @@ const gameState = {
     this.current = GameState.POOPING;
     this.poopTime = -1;
     this.dieTime = getNextDieTime(this.clock);
-    modFox("pooping");
+    modSnail("pooping");
   },
   sleep() {
     this.current = GameState.SLEEP;
-    modFox("sleep");
+    modSnail("sleep");
     modScene("night");
     this.clearTimes();
     this.wakeTime = this.clock + NIGHT_LENGTH;
@@ -122,18 +122,18 @@ const gameState = {
     this.current = GameState.HUNGRY;
     this.dieTime = getNextDieTime(this.clock);
     this.hungryTime = -1;
-    modFox("hungry");
+    modSnail("hungry");
   },
   die() {
     this.current = GameState.DEAD;
     modScene("dead");
-    modFox("dead");
+    modSnail("dead");
     this.clearTimes();
     writeModal("The fox died :( <br/> Press the middle button to start");
   },
   startCelebrating() {
     this.current = GameState.CELEBRATING;
-    modFox("celebrate");
+    modSnail("celebrate");
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = this.clock + 2;
   },
@@ -146,9 +146,9 @@ const gameState = {
   determineFoxState() {
     if (this.current === GameState.IDLING) {
       if (SCENES[this.scene] === "rain") {
-        modFox("rain");
+        modSnail("rain");
       } else {
-        modFox("idling");
+        modSnail("idling");
       }
     }
   },
@@ -159,7 +159,7 @@ const gameState = {
     this.current = GameState.FEEDING;
     this.dieTime = -1;
     this.poopTime = getNextPoopTime(this.clock);
-    modFox("eating");
+    modSnail("eating");
     this.timeToStartCelebrating = this.clock + 2;
   },
   clearTimes() {
