@@ -8,20 +8,21 @@
 }
 
 .snail.walking {
-  background-image: url(../assets/snail/walking-sprite.png);
+  background-image: url(../assets/snail/walking-sprite-ai.png);
   background-position: 0;
   background-repeat: no-repeat;
-  background-position: 0;
   transform: scale(0.25);
-  animation: spriteAnimation 2s steps(4) infinite;
+  animation: spriteAnimation 4s steps(33) infinite;
 }
 
 @keyframes spriteAnimation {
   from {
     background-position: 0;
+    left: 0;
   }
 
   to {
-    background-position: -1806px;
+    background-position: -14652px;
+    left: 10px;
   }
 }
