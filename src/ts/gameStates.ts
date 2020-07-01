@@ -1,4 +1,4 @@
-enum GameState {
+enum GameStates {
   INIT = 0,
   HATCHING = 1,
   IDLING = 3,
@@ -10,4 +10,4 @@ enum GameState {
   HUNGRY = 9,
 }
 
-export default GameState;
+export default GameStates;

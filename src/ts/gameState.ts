@@ -8,26 +8,65 @@ import {
   getNextHungerTime,
   getNextPoopTime,
 } from "./constants";
-import GameState from "./gameStates";
+import GameStates from "./GameStates";
 
-const gameState = {
-  current: GameState.INIT,
-  clock: 1,
-  wakeTime: -1,
-  sleepTime: -1,
-  hungryTime: -1,
-  dieTime: -1,
-  poopTime: -1,
-  timeToStartCelebrating: -1,
-  timeToEndCelebrating: -1,
-  scene: 0,
-  tick() {
+class GameState {
+  private current: GameStates;
+
+  private clock: number;
+
+  private sleepTime: number;
+
+  private hungryTime: number;
+
+  private dieTime: number;
+
+  private poopTime: number;
+
+  private timeToStartCelebrating: number;
+
+  private timeToEndCelebrating: number;
+
+  private scene: number;
+
+  constructor() {
+    this.current = GameStates.INIT;
+    this.clock = 1;
+    this.sleepTime = -1;
+    this.hungryTime = -1;
+    this.dieTime = -1;
+    this.poopTime = -1;
+    this.timeToStartCelebrating = -1;
+    this.timeToEndCelebrating = -1;
+    this.scene = 0;
+  }
+
+  public clearTimes() {
+    this.sleepTime = -1;
+    this.hungryTime = -1;
+    this.dieTime = -1;
+    this.poopTime = -1;
+    this.timeToStartCelebrating = -1;
+    this.timeToEndCelebrating = -1;
+  }
+
+  public startGame() {
+    modScene("day");
+    writeModal();
+
+    this.current = GameStates.IDLING;
+    modSnail("idling");
+    this.scene = Math.random() > RAIN_CHANCE ? 0 : 1;
+    modScene(SCENES[this.scene]);
+    this.determineFoxState();
+    this.sleepTime = this.clock + DAY_LENGTH;
+    this.hungryTime = getNextHungerTime(this.clock);
+  }
+
+  public tick() {
     this.clock++;
 
     switch (this.clock) {
-      case this.wakeTime:
-        this.wake();
-        break;
       case this.hungryTime:
         this.getHungry();
         break;
@@ -43,37 +82,21 @@ const gameState = {
       case this.poopTime:
         this.poop();
     }
-  },
-  startGame() {
-    this.current = GameState.HATCHING;
-    this.wakeTime = this.clock + 3;
-    modSnail("hatching");
-    modScene("day");
-    writeModal();
-  },
-  wake() {
-    this.current = GameState.IDLING;
-    this.wakeTime = -1;
-    modSnail("idling");
-    this.scene = Math.random() > RAIN_CHANCE ? 0 : 1;
-    modScene(SCENES[this.scene]);
-    this.determineFoxState();
-    this.sleepTime = this.clock + DAY_LENGTH;
-    this.hungryTime = getNextHungerTime(this.clock);
-  },
-  handleUserAction(icon: string) {
+  }
+
+  public handleUserAction(icon: string) {
     if (
       [
-        GameState.SLEEP,
-        GameState.FEEDING,
-        GameState.CELEBRATING,
-        GameState.HATCHING,
+        GameStates.SLEEP,
+        GameStates.FEEDING,
+        GameStates.CELEBRATING,
+        GameStates.HATCHING,
       ].includes(this.current)
     ) {
       return;
     }
 
-    if (this.current === GameState.INIT || this.current === GameState.DEAD) {
+    if (this.current === GameStates.INIT || this.current === GameStates.DEAD) {
       this.startGame();
       return;
     }
@@ -91,88 +114,78 @@ const gameState = {
       default:
         break;
     }
-  },
-  changeWeather() {
+  }
+
+  public changeWeather() {
     this.scene = (this.scene + 1) % SCENES.length;
     modScene(SCENES[this.scene]);
     this.determineFoxState();
-  },
-  cleanUpPoop() {
-    if (this.current === GameState.POOPING) {
+  }
+  public cleanUpPoop() {
+    if (this.current === GameStates.POOPING) {
       this.dieTime = -1;
       togglePoopBag(true);
       this.startCelebrating();
       this.hungryTime = getNextHungerTime(this.clock);
     }
-  },
-  poop() {
-    this.current = GameState.POOPING;
+  }
+  public poop() {
+    this.current = GameStates.POOPING;
     this.poopTime = -1;
     this.dieTime = getNextDieTime(this.clock);
     modSnail("pooping");
-  },
-  sleep() {
-    this.current = GameState.SLEEP;
+  }
+  public sleep() {
+    this.current = GameStates.SLEEP;
     modSnail("sleep");
     modScene("night");
     this.clearTimes();
-    this.wakeTime = this.clock + NIGHT_LENGTH;
-  },
-  getHungry() {
-    this.current = GameState.HUNGRY;
+    this.sleepTime = this.clock + NIGHT_LENGTH;
+  }
+  public getHungry() {
+    this.current = GameStates.HUNGRY;
     this.dieTime = getNextDieTime(this.clock);
     this.hungryTime = -1;
     modSnail("hungry");
-  },
-  die() {
-    this.current = GameState.DEAD;
+  }
+  public die() {
+    this.current = GameStates.DEAD;
     modScene("dead");
     modSnail("dead");
     this.clearTimes();
     writeModal("The fox died :( <br/> Press the middle button to start");
-  },
-  startCelebrating() {
-    this.current = GameState.CELEBRATING;
+  }
+  public startCelebrating() {
+    this.current = GameStates.CELEBRATING;
     modSnail("celebrate");
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = this.clock + 2;
-  },
-  endCelebrating() {
+  }
+  public endCelebrating() {
     this.timeToStartCelebrating = -1;
-    this.current = GameState.IDLING;
+    this.current = GameStates.IDLING;
     this.determineFoxState();
     togglePoopBag(false);
-  },
-  determineFoxState() {
-    if (this.current === GameState.IDLING) {
+  }
+  public determineFoxState() {
+    if (this.current === GameStates.IDLING) {
       if (SCENES[this.scene] === "rain") {
         modSnail("rain");
       } else {
         modSnail("idling");
       }
     }
-  },
-  feed() {
-    if (this.current !== GameState.HUNGRY) {
+  }
+  public feed() {
+    if (this.current !== GameStates.HUNGRY) {
       return;
     }
-    this.current = GameState.FEEDING;
+    this.current = GameStates.FEEDING;
     this.dieTime = -1;
     this.poopTime = getNextPoopTime(this.clock);
     modSnail("eating");
     this.timeToStartCelebrating = this.clock + 2;
-  },
-  clearTimes() {
-    this.wakeTime = -1;
-    this.sleepTime = -1;
-    this.hungryTime = -1;
-    this.dieTime = -1;
-    this.poopTime = -1;
-    this.timeToStartCelebrating = -1;
-    this.timeToEndCelebrating = -1;
-  },
-};
+  }
+}
 
-export const handleUserAction = gameState.handleUserAction.bind(gameState);
-
-export default gameState;
+export default GameState;
