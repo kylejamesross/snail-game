@@ -1,28 +1,64 @@
-@snail-width: 444px;
+@snail-width: 110.69px;
 
 .snail {
   width: @snail-width;
   height: @snail-width * 0.8581;
   position: relative;
-  top: 54px;
+  top: 198px;
+
+  &.sliding {
+    background-image: url(../assets/snail/sliding-sprite.png);
+    background-position: 0;
+    background-repeat: no-repeat;
+    animation: spriteAnimationWalking 2s steps(33) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running;
+  }
+
+  &.crying {
+    background-image: url(../assets/snail/crying-sprite.png);
+    animation: spriteAnimationCrying 2s steps(6) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
 }
 
-.snail.walking {
-  background-image: url(../assets/snail/walking-sprite-ai.png);
-  background-position: 0;
-  background-repeat: no-repeat;
-  transform: scale(0.25);
-  animation: spriteAnimation 4s steps(33) infinite;
-}
-
-@keyframes spriteAnimation {
+@keyframes spriteAnimationWalking {
   from {
     background-position: 0;
-    left: 0;
   }
 
   to {
-    background-position: -14652px;
-    left: 10px;
+    background-position: -3653px;
+  }
+}
+
+@keyframes spriteAnimationCrying {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -681px;
+  }
+}
+
+@keyframes movingAnimation {
+  0% {
+    left: 5%;
+    transform: scaleX(1);
+  }
+
+  49.9% {
+    left: 75%;
+    transform: scaleX(1);
+  }
+
+  50% {
+    left: 75%;
+    transform: scaleX(-1);
+  }
+
+  100% {
+    left: 5%;
+    transform: scaleX(-1);
   }
 }
