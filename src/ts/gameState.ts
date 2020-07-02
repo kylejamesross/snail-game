@@ -1,4 +1,10 @@
-import { modSnail, modScene, togglePoopBag, writeModal } from "./ui";
+import {
+  modSnail,
+  modScene,
+  togglePoopBag,
+  writeModal,
+  modRandomScene,
+} from "./ui";
 import {
   RAIN_CHANCE,
   SCENES,
@@ -51,14 +57,8 @@ class GameState {
   }
 
   public startGame() {
-    modScene("day");
-    writeModal();
-
     this.current = GameStates.IDLING;
-    modSnail("idling");
-    this.scene = Math.random() > RAIN_CHANCE ? 0 : 1;
-    modScene(SCENES[this.scene]);
-    this.determineFoxState();
+    modRandomScene();
     this.sleepTime = this.clock + DAY_LENGTH;
     this.hungryTime = getNextHungerTime(this.clock);
   }
@@ -119,7 +119,6 @@ class GameState {
   public changeWeather() {
     this.scene = (this.scene + 1) % SCENES.length;
     modScene(SCENES[this.scene]);
-    this.determineFoxState();
   }
   public cleanUpPoop() {
     if (this.current === GameStates.POOPING) {
@@ -164,17 +163,7 @@ class GameState {
   public endCelebrating() {
     this.timeToStartCelebrating = -1;
     this.current = GameStates.IDLING;
-    this.determineFoxState();
     togglePoopBag(false);
-  }
-  public determineFoxState() {
-    if (this.current === GameStates.IDLING) {
-      if (SCENES[this.scene] === "rain") {
-        modSnail("rain");
-      } else {
-        modSnail("idling");
-      }
-    }
   }
   public feed() {
     if (this.current !== GameStates.HUNGRY) {
