@@ -162,7 +162,9 @@ class GameState {
   }
   public endCelebrating() {
     this.timeToStartCelebrating = -1;
+    this.poopTime = getNextPoopTime(this.clock);
     this.current = GameStates.IDLING;
+    modSnail("");
     togglePoopBag(false);
   }
   public feed() {
@@ -171,7 +173,6 @@ class GameState {
     }
     this.current = GameStates.FEEDING;
     this.dieTime = -1;
-    this.poopTime = getNextPoopTime(this.clock);
     modSnail("eating");
     this.timeToStartCelebrating = this.clock + 2;
   }

@@ -3,7 +3,7 @@ import { RAIN_CHANCE, SCENES } from "./constants";
 export function modSnail(state: string) {
   const element = document.querySelector<HTMLElement>(".snail");
   if (element) {
-    element.className = `snail snail-${state}`;
+    element.className = `snail ${state}`;
   }
 }
 

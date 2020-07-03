@@ -18,6 +18,54 @@
     animation: spriteAnimationCrying 2s steps(6) infinite, movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
+
+  &.hungry {
+    background-image: url("../assets/snail/hungry-sprite.png");
+    animation: spriteAnimationHungry 2s steps(17) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
+
+  &.eating {
+    background-image: url("../assets/snail/eating-sprite.png");
+    animation: spriteAnimationEating 2s steps(12) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
+
+  &.celebrate {
+    background-image: url("../assets/snail/celebrate-sprite.png");
+    animation: spriteAnimationCelebrating 2s steps(4) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
+}
+
+@keyframes spriteAnimationCelebrating {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -549px;
+  }
+}
+
+@keyframes spriteAnimationEating {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -1316px;
+  }
+}
+
+@keyframes spriteAnimationHungry {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -1864px;
+  }
 }
 
 @keyframes spriteAnimationWalking {

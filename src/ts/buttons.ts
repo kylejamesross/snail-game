@@ -4,9 +4,22 @@ import GameState from "./gameState";
 
 export default function initializeButtons(gameState: GameState): void {
   createElementAndAddClickEventListener(".start-button", startButtonClick);
+  createElementAndAddClickEventListener(".feed-control", feedButtonClick);
+  createElementAndAddClickEventListener(
+    ".environment-control",
+    environmentButtonClick
+  );
 
   function startButtonClick() {
     toggleClassOnElement(".game-screen", "start-menu");
     gameState.startGame();
+  }
+
+  function feedButtonClick() {
+    gameState.feed();
+  }
+
+  function environmentButtonClick() {
+    gameState.changeWeather();
   }
 }
