@@ -15,4 +15,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{"./ui":"VdIJ","./constants":"kxCl","./GameStates":"rTdD","./utils":"u7YK"}],"LQOA":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=require("./constants"),n=e(require("./buttons")),u=e(require("./gameState"));!async function(){const e=new u.default;n.default(e);let o=Date.now();!function n(){const u=Date.now();o<=u&&(e.tick(),o=u+t.TICK_RATE),requestAnimationFrame(n)}()}();
 },{"./constants":"kxCl","./buttons":"efu1","./gameState":"QnKa"}]},{},["LQOA"], null)
-//# sourceMappingURL=/ts.f93e7ad5.js.map
+//# sourceMappingURL=ts.f93e7ad5.js.map
