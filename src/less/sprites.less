@@ -44,12 +44,36 @@
   }
 
   &.pooping {
-    width: 442px / 4;
-    height: 74px;
-    top: 218px;
+    width: 565px / 4;
+    height: 95px;
     background-image: url("../assets/snail/pooping-sprite.png");
     animation: spriteAnimationPooping 2s steps(4) infinite, movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
+  }
+
+  &.sleeping {
+    width: 706px / 5;
+    background-image: url("../assets/snail/sleeping-sprite.png");
+    animation: spriteAnimationSleeping 2s steps(5) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
+
+  &.dead {
+    width: 141px;
+    height: 95px;
+    left: 40px;
+    background-image: url("../assets/snail/dead.png");
+    animation: none;
+  }
+}
+
+@keyframes spriteAnimationSleeping {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -706px;
   }
 }
 
@@ -59,7 +83,7 @@
   }
 
   to {
-    background-position: -442px;
+    background-position: -565px;
   }
 }
 

@@ -1,12 +1,5 @@
+import { modSnail, modScene, togglePoopPile, modRandomScene } from "./ui";
 import {
-  modSnail,
-  modScene,
-  togglePoopPile,
-  writeModal,
-  modRandomScene,
-} from "./ui";
-import {
-  RAIN_CHANCE,
   SCENES,
   DAY_LENGTH,
   NIGHT_LENGTH,
@@ -15,6 +8,7 @@ import {
   getNextPoopTime,
 } from "./constants";
 import GameStates from "./GameStates";
+import { toggleClassOnElement } from "./utils";
 
 class GameState {
   private current: GameStates;
@@ -35,6 +29,8 @@ class GameState {
 
   private timeToEndPooping: number;
 
+  private wakeTime: number;
+
   private scene: number;
 
   constructor() {
@@ -47,6 +43,7 @@ class GameState {
     this.timeToEndPooping = -1;
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = -1;
+    this.wakeTime = -1;
     this.scene = 0;
   }
 
@@ -58,11 +55,13 @@ class GameState {
     this.timeToEndPooping = -1;
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = -1;
+    this.wakeTime = -1;
   }
 
   public startGame() {
     this.current = GameStates.IDLING;
     modRandomScene();
+    modSnail("");
     this.sleepTime = this.clock + DAY_LENGTH;
     this.hungryTime = getNextHungerTime(this.clock);
   }
@@ -92,6 +91,9 @@ class GameState {
       case this.sleepTime:
         this.sleep();
         break;
+      case this.wakeTime:
+        this.wake();
+        break;
     }
   }
 
@@ -107,11 +109,15 @@ class GameState {
     }
   }
   public sleep() {
+    console.log("hit");
     this.current = GameStates.SLEEP;
-    modSnail("sleep");
+    modSnail("sleeping");
     modScene("night");
     this.clearTimes();
-    this.sleepTime = this.clock + NIGHT_LENGTH;
+    this.wakeTime = this.clock + NIGHT_LENGTH;
+  }
+  public wake() {
+    this.startGame();
   }
   public getHungry() {
     this.current = GameStates.HUNGRY;
@@ -121,9 +127,9 @@ class GameState {
   }
   public die() {
     this.current = GameStates.DEAD;
-    modScene("dead");
     modSnail("dead");
     this.clearTimes();
+    toggleClassOnElement(".game-screen", "death-menu");
   }
   public startPooping() {
     this.current = GameStates.POOPING;

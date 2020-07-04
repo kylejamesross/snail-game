@@ -4,6 +4,7 @@ import GameState from "./gameState";
 
 export default function initializeButtons(gameState: GameState): void {
   createElementAndAddClickEventListener(".start-button", startButtonClick);
+  createElementAndAddClickEventListener(".restart-button", restartButtonClick);
   createElementAndAddClickEventListener(".feed-control", feedButtonClick);
   createElementAndAddClickEventListener(
     ".environment-control",
@@ -13,6 +14,11 @@ export default function initializeButtons(gameState: GameState): void {
 
   function startButtonClick() {
     toggleClassOnElement(".game-screen", "start-menu");
+    gameState.startGame();
+  }
+
+  function restartButtonClick() {
+    toggleClassOnElement(".game-screen", "death-menu");
     gameState.startGame();
   }
 
