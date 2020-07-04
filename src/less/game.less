@@ -123,6 +123,18 @@
     &:active {
       background-color: #a085eb;
     }
+
+    &.warning {
+      background-color: #C73C2D;
+
+      &:hover {
+        background-color: #b93e30;
+      }
+
+      &:active {
+        background-color: #d14636;
+      }
+    }
   }
 
   .poop-control {
@@ -142,10 +154,20 @@
   }
 
   .environment-control {
-    background-image: url("../assets/icons/raining.svg");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 60%;
+    &.raining {
+      background-image: url("../assets/icons/raining.svg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 60%;
+    }
+
+    &.day {
+      background-image: url("../assets/icons/sunny.svg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 60%;
+    }
   }
 }

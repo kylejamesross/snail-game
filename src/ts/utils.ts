@@ -10,11 +10,12 @@ export const createElementAndAddClickEventListener = (
 
 export const toggleClassOnElement = (
   ElementClassName: string,
-  classNameToToggle: string
+  classNameToToggle: string,
+  force?: boolean
 ): void => {
   const element = document!.querySelector(ElementClassName);
   if (element) {
     const classList = element.classList;
-    classList.toggle(classNameToToggle);
+    classList.toggle(classNameToToggle, force);
   }
 };

@@ -1,4 +1,5 @@
 import { RAIN_CHANCE, SCENES } from "./constants";
+import { toggleClassOnElement } from "./utils";
 
 export function modSnail(state: string) {
   const element = document.querySelector<HTMLElement>(".snail");
@@ -22,21 +23,15 @@ export function modScene(state: string) {
   }
 }
 
-export function modRandomScene() {
-  const scene = Math.random() > RAIN_CHANCE ? 0 : 1;
-  modScene(SCENES[scene]);
+export function modEnvironmentButton(state: string) {
+  const inverted = state === "raining" ? "day" : "raining";
+  toggleClassOnElement(".environment-control", inverted, true);
+  toggleClassOnElement(".environment-control", state, false);
 }
 
 export function togglePoopPile(show: boolean) {
   const element = document.querySelector<HTMLElement>(".poop-pile");
   if (element) {
     element.classList.toggle("hidden", !show);
-  }
-}
-
-export function writeModal(text = "") {
-  const element = document.querySelector<HTMLElement>(".modal");
-  if (element) {
-    element.innerHTML = `<div class="modal-inner">${text}</div>`;
   }
 }

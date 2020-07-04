@@ -1,4 +1,4 @@
-import { modSnail, modScene, togglePoopPile, modRandomScene } from "./ui";
+import { modSnail, modScene, togglePoopPile, modEnvironmentButton } from "./ui";
 import {
   SCENES,
   DAY_LENGTH,
@@ -6,12 +6,13 @@ import {
   getNextDieTime,
   getNextHungerTime,
   getNextPoopTime,
+  RAIN_CHANCE,
 } from "./constants";
 import GameStates from "./GameStates";
 import { toggleClassOnElement } from "./utils";
 
 class GameState {
-  private current: GameStates;
+  public current: GameStates;
 
   private clock: number;
 
@@ -60,7 +61,11 @@ class GameState {
 
   public startGame() {
     this.current = GameStates.IDLING;
-    modRandomScene();
+    this.scene = Math.random() > RAIN_CHANCE ? 0 : 1;
+    modScene(SCENES[this.scene]);
+    toggleClassOnElement(".feed-control", "warning", false);
+    toggleClassOnElement(".poop-control", "warning", false);
+    modEnvironmentButton(SCENES[this.scene]);
     modSnail("");
     this.sleepTime = this.clock + DAY_LENGTH;
     this.hungryTime = getNextHungerTime(this.clock);
@@ -98,39 +103,51 @@ class GameState {
   }
 
   public changeWeather() {
-    this.scene = (this.scene + 1) % SCENES.length;
-    modScene(SCENES[this.scene]);
+    if (this.current !== GameStates.SLEEP) {
+      this.scene = (this.scene + 1) % SCENES.length;
+      modScene(SCENES[this.scene]);
+      modEnvironmentButton(SCENES[this.scene]);
+    }
   }
+
   public cleanUpPoop() {
     if (this.current === GameStates.POOPED) {
       this.dieTime = -1;
       togglePoopPile(false);
       this.hungryTime = getNextHungerTime(this.clock);
+      toggleClassOnElement(".poop-control", "warning", false);
     }
   }
+
   public sleep() {
-    console.log("hit");
     this.current = GameStates.SLEEP;
     modSnail("sleeping");
     modScene("night");
     this.clearTimes();
+    toggleClassOnElement(".feed-control", "warning", false);
+    toggleClassOnElement(".poop-control", "warning", false);
     this.wakeTime = this.clock + NIGHT_LENGTH;
   }
+
   public wake() {
     this.startGame();
   }
+
   public getHungry() {
     this.current = GameStates.HUNGRY;
     this.dieTime = getNextDieTime(this.clock);
     this.hungryTime = -1;
+    toggleClassOnElement(".feed-control", "warning", true);
     modSnail("hungry");
   }
+
   public die() {
     this.current = GameStates.DEAD;
     modSnail("dead");
     this.clearTimes();
     toggleClassOnElement(".game-screen", "death-menu");
   }
+
   public startPooping() {
     this.current = GameStates.POOPING;
     this.timeToStartPooping = -1;
@@ -142,21 +159,25 @@ class GameState {
     this.current = GameStates.POOPED;
     this.timeToEndPooping = -1;
     this.dieTime = getNextDieTime(this.clock);
+    toggleClassOnElement(".poop-control", "warning", true);
     togglePoopPile(true);
     modSnail("");
   }
+
   public startCelebrating() {
     this.current = GameStates.CELEBRATING;
     modSnail("celebrate");
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = this.clock + 2;
   }
+
   public endCelebrating() {
     this.timeToStartCelebrating = -1;
     this.timeToStartPooping = getNextPoopTime(this.clock);
     this.current = GameStates.IDLING;
     modSnail("");
   }
+
   public feed() {
     if (this.current !== GameStates.HUNGRY) {
       return;
@@ -164,6 +185,7 @@ class GameState {
     this.current = GameStates.FEEDING;
     this.dieTime = -1;
     modSnail("eating");
+    toggleClassOnElement(".feed-control", "warning", false);
     this.timeToStartCelebrating = this.clock + 2;
   }
 }
