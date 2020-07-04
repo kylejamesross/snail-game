@@ -36,6 +36,31 @@
     animation: spriteAnimationCelebrating 2s steps(4) infinite, movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
+
+  &.celebrate {
+    background-image: url("../assets/snail/celebrate-sprite.png");
+    animation: spriteAnimationCelebrating 2s steps(4) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
+
+  &.pooping {
+    width: 442px / 4;
+    height: 74px;
+    top: 218px;
+    background-image: url("../assets/snail/pooping-sprite.png");
+    animation: spriteAnimationPooping 2s steps(4) infinite, movingAnimation 70s linear infinite;
+    animation-play-state: running, paused;
+  }
+}
+
+@keyframes spriteAnimationPooping {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -442px;
+  }
 }
 
 @keyframes spriteAnimationCelebrating {

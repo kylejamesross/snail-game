@@ -1,7 +1,7 @@
 import {
   modSnail,
   modScene,
-  togglePoopBag,
+  togglePoopPile,
   writeModal,
   modRandomScene,
 } from "./ui";
@@ -27,11 +27,13 @@ class GameState {
 
   private dieTime: number;
 
-  private poopTime: number;
-
   private timeToStartCelebrating: number;
 
   private timeToEndCelebrating: number;
+
+  private timeToStartPooping: number;
+
+  private timeToEndPooping: number;
 
   private scene: number;
 
@@ -41,7 +43,8 @@ class GameState {
     this.sleepTime = -1;
     this.hungryTime = -1;
     this.dieTime = -1;
-    this.poopTime = -1;
+    this.timeToStartPooping = -1;
+    this.timeToEndPooping = -1;
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = -1;
     this.scene = 0;
@@ -51,7 +54,8 @@ class GameState {
     this.sleepTime = -1;
     this.hungryTime = -1;
     this.dieTime = -1;
-    this.poopTime = -1;
+    this.timeToStartPooping = -1;
+    this.timeToEndPooping = -1;
     this.timeToStartCelebrating = -1;
     this.timeToEndCelebrating = -1;
   }
@@ -79,39 +83,14 @@ class GameState {
       case this.timeToEndCelebrating:
         this.endCelebrating();
         break;
-      case this.poopTime:
-        this.poop();
-    }
-  }
-
-  public handleUserAction(icon: string) {
-    if (
-      [
-        GameStates.SLEEP,
-        GameStates.FEEDING,
-        GameStates.CELEBRATING,
-        GameStates.HATCHING,
-      ].includes(this.current)
-    ) {
-      return;
-    }
-
-    if (this.current === GameStates.INIT || this.current === GameStates.DEAD) {
-      this.startGame();
-      return;
-    }
-
-    switch (icon) {
-      case "weather":
-        this.changeWeather();
+      case this.timeToStartPooping:
+        this.startPooping();
         break;
-      case "poop":
-        this.cleanUpPoop();
+      case this.timeToEndPooping:
+        this.endPooping();
         break;
-      case "fish":
-        this.feed();
-        break;
-      default:
+      case this.sleepTime:
+        this.sleep();
         break;
     }
   }
@@ -121,18 +100,11 @@ class GameState {
     modScene(SCENES[this.scene]);
   }
   public cleanUpPoop() {
-    if (this.current === GameStates.POOPING) {
+    if (this.current === GameStates.POOPED) {
       this.dieTime = -1;
-      togglePoopBag(true);
-      this.startCelebrating();
+      togglePoopPile(false);
       this.hungryTime = getNextHungerTime(this.clock);
     }
-  }
-  public poop() {
-    this.current = GameStates.POOPING;
-    this.poopTime = -1;
-    this.dieTime = getNextDieTime(this.clock);
-    modSnail("pooping");
   }
   public sleep() {
     this.current = GameStates.SLEEP;
@@ -152,7 +124,20 @@ class GameState {
     modScene("dead");
     modSnail("dead");
     this.clearTimes();
-    writeModal("The fox died :( <br/> Press the middle button to start");
+  }
+  public startPooping() {
+    this.current = GameStates.POOPING;
+    this.timeToStartPooping = -1;
+    this.timeToEndPooping = this.clock + 4;
+    modSnail("pooping");
+  }
+
+  public endPooping() {
+    this.current = GameStates.POOPED;
+    this.timeToEndPooping = -1;
+    this.dieTime = getNextDieTime(this.clock);
+    togglePoopPile(true);
+    modSnail("");
   }
   public startCelebrating() {
     this.current = GameStates.CELEBRATING;
@@ -162,10 +147,9 @@ class GameState {
   }
   public endCelebrating() {
     this.timeToStartCelebrating = -1;
-    this.poopTime = getNextPoopTime(this.clock);
+    this.timeToStartPooping = getNextPoopTime(this.clock);
     this.current = GameStates.IDLING;
     modSnail("");
-    togglePoopBag(false);
   }
   public feed() {
     if (this.current !== GameStates.HUNGRY) {

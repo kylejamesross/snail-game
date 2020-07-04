@@ -27,8 +27,8 @@ export function modRandomScene() {
   modScene(SCENES[scene]);
 }
 
-export function togglePoopBag(show: boolean) {
-  const element = document.querySelector<HTMLElement>(".poop-bag");
+export function togglePoopPile(show: boolean) {
+  const element = document.querySelector<HTMLElement>(".poop-pile");
   if (element) {
     element.classList.toggle("hidden", !show);
   }

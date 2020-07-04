@@ -8,6 +8,7 @@ enum GameStates {
   POOPING = 7,
   DEAD = 8,
   HUNGRY = 9,
+  POOPED = 9,
 }
 
 export default GameStates;

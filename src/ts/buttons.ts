@@ -9,6 +9,7 @@ export default function initializeButtons(gameState: GameState): void {
     ".environment-control",
     environmentButtonClick
   );
+  createElementAndAddClickEventListener(".poop-control", poopButtonClick);
 
   function startButtonClick() {
     toggleClassOnElement(".game-screen", "start-menu");
@@ -21,5 +22,9 @@ export default function initializeButtons(gameState: GameState): void {
 
   function environmentButtonClick() {
     gameState.changeWeather();
+  }
+
+  function poopButtonClick() {
+    gameState.cleanUpPoop();
   }
 }
