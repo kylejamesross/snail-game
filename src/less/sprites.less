@@ -10,36 +10,35 @@
   background-image: url(../assets/snail/sliding-sprite.png);
   background-position: 0;
   background-repeat: no-repeat;
-  animation: spriteAnimationWalking 2s steps(33) infinite, movingAnimation 70s linear infinite;
+  animation: spriteAnimationWalking 2s steps(33) infinite,
+    movingAnimation 70s linear infinite;
   animation-play-state: running;
-
-  &.crying {
-    background-image: url(../assets/snail/crying-sprite.png);
-    animation: spriteAnimationCrying 2s steps(6) infinite, movingAnimation 70s linear infinite;
-    animation-play-state: running, paused;
-  }
 
   &.hungry {
     background-image: url("../assets/snail/hungry-sprite.png");
-    animation: spriteAnimationHungry 2s steps(17) infinite, movingAnimation 70s linear infinite;
+    animation: spriteAnimationHungry 2s steps(17) infinite,
+      movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
 
   &.eating {
     background-image: url("../assets/snail/eating-sprite.png");
-    animation: spriteAnimationEating 2s steps(12) infinite, movingAnimation 70s linear infinite;
+    animation: spriteAnimationEating 2s steps(12) infinite,
+      movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
 
   &.celebrate {
     background-image: url("../assets/snail/celebrate-sprite.png");
-    animation: spriteAnimationCelebrating 2s steps(4) infinite, movingAnimation 70s linear infinite;
+    animation: spriteAnimationCelebrating 2s steps(4) infinite,
+      movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
 
   &.celebrate {
     background-image: url("../assets/snail/celebrate-sprite.png");
-    animation: spriteAnimationCelebrating 2s steps(4) infinite, movingAnimation 70s linear infinite;
+    animation: spriteAnimationCelebrating 2s steps(4) infinite,
+      movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
 
@@ -47,14 +46,16 @@
     width: 565px / 4;
     height: 95px;
     background-image: url("../assets/snail/pooping-sprite.png");
-    animation: spriteAnimationPooping 2s steps(4) infinite, movingAnimation 70s linear infinite;
+    animation: spriteAnimationPooping 2s steps(4) infinite,
+      movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
 
   &.sleeping {
     width: 706px / 5;
     background-image: url("../assets/snail/sleeping-sprite.png");
-    animation: spriteAnimationSleeping 2s steps(5) infinite, movingAnimation 70s linear infinite;
+    animation: spriteAnimationSleeping 2s steps(5) infinite,
+      movingAnimation 70s linear infinite;
     animation-play-state: running, paused;
   }
 
@@ -157,4 +158,13 @@
     left: 5%;
     transform: scaleX(-1);
   }
+}
+
+.preload {
+  visibility: hidden;
+  background: url("../assets/snail/hungry-sprite.png"),
+    url("../assets/snail/eating-sprite.png"),
+    url("../assets/snail/pooping-sprite.png"), url("../assets/snail/dead.png"),
+    url("../assets/snail/celebrate-sprite.png"),
+    url("../assets/snail/sleeping-sprite.png");
 }
