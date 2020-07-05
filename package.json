@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --public-url ./",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "lint": "eslint --ignore-path ./.gitignore --fix \"./**/*.{js,ts}\"",
