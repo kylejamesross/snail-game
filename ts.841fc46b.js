@@ -128,14 +128,14 @@ exports.TICK_RATE = 3000;
 exports.ICONS = ["fish", "poop", "weather"];
 exports.RAIN_CHANCE = 0.2;
 exports.SCENES = ["day", "raining"];
-exports.DAY_LENGTH = 60;
+exports.DAY_LENGTH = 30;
 exports.NIGHT_LENGTH = 3;
 
-exports.getNextHungerTime = clock => Math.floor(Math.random() * 3) + 8 + clock;
+exports.getNextHungerTime = clock => Math.floor(Math.random() * 1) + 8 + clock;
 
-exports.getNextDieTime = clock => Math.floor(Math.random() * 2) + 5 + clock;
+exports.getNextDieTime = clock => Math.floor(Math.random() * 3) + 5 + clock;
 
-exports.getNextPoopTime = clock => Math.floor(Math.random() * 3) + 8 + clock;
+exports.getNextPoopTime = clock => Math.floor(Math.random() * 2) + 8 + clock;
 },{}],"../.history/src/ts/utils_20200701140937.ts":[function(require,module,exports) {
 "use strict";
 
@@ -555,7 +555,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53387" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50327" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

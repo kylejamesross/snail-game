@@ -10,11 +10,6 @@
   animation: spriteAnimationWalking 2s steps(33) infinite, movingAnimation 70s linear infinite;
   animation-play-state: running;
 }
-.snail.crying {
-  background-image: url(crying-sprite.89a9f129.png);
-  animation: spriteAnimationCrying 2s steps(6) infinite, movingAnimation 70s linear infinite;
-  animation-play-state: running, paused;
-}
 .snail.hungry {
   background-image: url("hungry-sprite.d51370be.png");
   animation: spriteAnimationHungry 2s steps(17) infinite, movingAnimation 70s linear infinite;
@@ -129,6 +124,10 @@
     transform: scaleX(-1);
   }
 }
+.preload {
+  visibility: hidden;
+  background: url("hungry-sprite.d51370be.png"), url("eating-sprite.5a0f23da.png"), url("pooping-sprite.922be414.png"), url("dead.6a6c51b9.png"), url("celebrate-sprite.a1dba7a6.png"), url("sleeping-sprite.304b2a4d.png");
+}
 /* general */
 * {
   box-sizing: border-box;
@@ -224,7 +223,7 @@ h1 {
   position: absolute;
   display: block;
   z-index: 2;
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
@@ -247,7 +246,7 @@ h1 {
 }
 .game-controls .game-button {
   cursor: pointer;
-  background-color: #8C74CC;
+  background-color: #8c74cc;
   width: 60px;
   height: 60px;
   border-radius: 60px;
@@ -260,7 +259,7 @@ h1 {
   background-color: #a085eb;
 }
 .game-controls .game-button.warning {
-  background-color: #C73C2D;
+  background-color: #c73c2d;
 }
 .game-controls .game-button.warning:hover {
   background-color: #b93e30;
